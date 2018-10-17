@@ -1,22 +1,10 @@
-enum TaskPriority {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High'
-}
-
-interface Task {
-  id: string;
-  title: string;
-  text: string;
-  priority: TaskPriority;
-  isDone: boolean;
-}
+import { TaskPriority } from './models/task-priority';
+import { Task } from './models/task';
 
 const tasks: Task[] = [];
 const id = '1234-234-23423-4324';
 const title = 'title';
 const text = 'text';
-const priority = TaskPriority.Low;
 const isDone = true;
 
 function addTaskToList(task: Task): void {
