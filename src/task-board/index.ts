@@ -12,7 +12,7 @@ interface Task {
   isDone: boolean;
 }
 
-const tasks = [];
+const tasks: Task[] = [];
 const id = '1234-234-23423-4324';
 const title = 'title';
 const text = 'text';
