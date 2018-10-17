@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ng-practice/typescript-in-detpth/issues"
   },
-  "homepage": "https://github.com/ng-practice/typescript-in-detpth#readme"
+  "homepage": "https://github.com/ng-practice/typescript-in-detpth#readme",
+  "devDependencies": {
+    "@types/node": "^10.12.0"
+  }
 }
