@@ -1,6 +1,6 @@
 import { Task } from './task';
 import { TaskPriority } from './task-priority';
-import { UrgentTask } from '../types';
+import { UrgentTask, MandatoryTask } from '../types';
 
 export class TaskList {
   tasks: Task[] = [];
@@ -38,7 +38,30 @@ export class TaskList {
     });
   }
 
+  getUrgent(): Task[] {
+    return this.tasks.filter(task => this._isUrgent(task.priority));
+  }
+
+  private _sample() {
+    return this.tasks.filter(task => {
+      const priority = task.priority;
+      if (this._isUrgent(priority)) {
+        priority; // infers UrgentTask
+        return true;
+      } else {
+        priority; // infers MandatoryTask
+        return false;
+      }
+    });
+  }
+
   private _assertNever(value: never): never {
     throw new Error(`Expected never to be called but got ${value}`);
+  }
+
+  private _isUrgent(
+    priority: MandatoryTask | UrgentTask
+  ): priority is UrgentTask {
+    return priority === TaskPriority.High || priority === TaskPriority.VeryHigh;
   }
 }
