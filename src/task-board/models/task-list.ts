@@ -1,11 +1,17 @@
 import { Task } from './task';
 import { TaskPriority } from './task-priority';
+import { UrgentTask } from '../types';
 
 export class TaskList {
   tasks: Task[] = [];
 
   addTaskToList(task: Task): void {
     this.tasks.push(task);
+  }
+
+  addUrgentTask(task: Task, priority: UrgentTask) {
+    const urgentTask = { ...task, priority };
+    this.tasks.push(urgentTask);
   }
 
   getSortedDescByPriority(): Task[] {
@@ -24,6 +30,8 @@ export class TaskList {
           return 'Today';
         case TaskPriority.High:
           return 'Now';
+        case TaskPriority.VeryHigh:
+          return 'Yesterday';
         default:
           this._assertNever(task.priority);
       }

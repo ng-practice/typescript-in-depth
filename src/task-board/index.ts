@@ -22,5 +22,14 @@ taskList.addTaskToList({
   isDone
 });
 
+taskList.addUrgentTask(
+  { id, title, text, isDone, priority: TaskPriority.Low },
+  TaskPriority.VeryHigh
+);
+
 console.log('Sorted:', taskList.getSortedDescByPriority());
 console.log('Due Dates:', taskList.dueDates());
+
+// type protocols = 'HTTP' | 'HTTPS' | 'FTP';
+
+// const protocol: protocols = 'WS'
