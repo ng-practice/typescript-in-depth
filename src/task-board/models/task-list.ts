@@ -1,28 +1,41 @@
+import { MandatoryTask, UrgentTask } from '../types';
 import { Task } from './task';
 import { TaskPriority } from './task-priority';
-import { UrgentTask, MandatoryTask } from '../types';
+
+export type ReadonlyTask = { readonly [prop in keyof Task]: Task[prop] };
+
+export type ReadonlyTasks = {
+  [key: string]: ReadonlyTask;
+};
 
 export class TaskList {
-  tasks: Task[] = [];
+  tasks: ReadonlyTasks = {};
 
-  addTaskToList(task: Task): void {
-    this.tasks.push(task);
+  addTaskToList(task: Task | undefined): void {
+    if (task) {
+      this.tasks = {
+        ...this.tasks,
+        [task.id]: task
+      };
+    }
   }
 
   addUrgentTask(task: Task, priority: UrgentTask) {
     const urgentTask = { ...task, priority };
-    this.tasks.push(urgentTask);
+    this.addTaskToList(urgentTask);
   }
 
   getSortedDescByPriority(): Task[] {
-    return this.tasks.sort((a, b) => a.priority.localeCompare(b.priority));
+    return Object.values(this.tasks).sort((a, b) =>
+      a.priority.localeCompare(b.priority)
+    );
     // return tasks.sort(function compareFn(a, b) {
     //   return b.priority - a.priority;
     // });
   }
 
   dueDates(): string[] {
-    return this.tasks.map((task: { priority: TaskPriority }) => {
+    return Object.values(this.tasks).map((task: { priority: TaskPriority }) => {
       switch (task.priority) {
         case TaskPriority.Low:
           return 'Sometimes';
@@ -34,16 +47,19 @@ export class TaskList {
           return 'Yesterday';
         default:
           this._assertNever(task.priority);
+          return '';
       }
     });
   }
 
   getUrgent(): Task[] {
-    return this.tasks.filter(task => this._isUrgent(task.priority));
+    return Object.values(this.tasks).filter(task =>
+      this._isUrgent(task.priority)
+    );
   }
 
   private _sample() {
-    return this.tasks.filter(task => {
+    return Object.values(this.tasks).filter(task => {
       const priority = task.priority;
       if (this._isUrgent(priority)) {
         priority; // infers UrgentTask
