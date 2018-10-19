@@ -19,9 +19,15 @@ export class Mutator<T> implements ModelMutator<T> {
   constructor(private options: ModelMutatorOptions<T>) {}
 
   public addOne(model: T, entities: Dictionary<T>): Dictionary<T> {
+    const identifier = this.options.getIdentifier(model);
+
+    if (!identifier) {
+      throw new Error(`Mutator: "${identifier}" is not a valid identifier.`);
+    }
+
     return {
       ...entities,
-      [this.options.getIdentifier(model)]: model
+      [identifier]: model
     };
   }
 
