@@ -59,11 +59,18 @@ describe('Mutator<T>', () => {
     });
   });
 
+  type addOneSpy = jest.SpyInstance<
+    (model: Task, entities: Dictionary<Task>) => Dictionary<Task>
+  >;
+
   describe('addMany', () => {
     describe('When two tasks are added to the dictionary', () => {
+      let mutator: Mutator<Task>;
+      let addOne: addOneSpy;
+
       it('should call addOne two times', () => {
-        const mutator = new Mutator<Task>({ getIdentifier: task => task.guid });
-        const addOne = jest.spyOn(mutator, 'addOne');
+        mutator = new Mutator<Task>({ getIdentifier: task => task.guid });
+        addOne = jest.spyOn(mutator, 'addOne');
 
         const tasksToBeAdded: Task[] = [
           { guid: '79248-0234' } as Task,
