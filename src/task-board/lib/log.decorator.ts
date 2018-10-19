@@ -5,3 +5,16 @@ export function Log(message: string) {
     constructor.prototype.additionalData = `Enhanced with: ${message}`;
   };
 }
+
+// tslint:disable-next-line:function-name
+export function WhatIsIt(message: string) {
+  // tslint:disable-next-line:no-any
+  return function whatIsItFn(
+    target: Object,
+    propertyKey: string | symbol,
+    descriptor: number
+  ) {
+    // tslint:disable-next-line:no-any
+    console.log(target, propertyKey, descriptor);
+  };
+}

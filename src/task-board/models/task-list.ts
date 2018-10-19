@@ -1,7 +1,7 @@
 import { MandatoryTask, UrgentTask } from '../types';
 import { Task } from './task';
 import { TaskPriority } from './task-priority';
-import { Log } from '../lib/log.decorator';
+import { Log, WhatIsIt } from '../lib/log.decorator';
 
 export type ReadonlyTask = { readonly [prop in keyof Task]: Task[prop] };
 
@@ -13,7 +13,7 @@ export interface ReadonlyTasks {
 export class TaskList {
   public tasks: ReadonlyTasks = {};
 
-  public addTaskToList(task: Task | undefined): void {
+  public addTaskToList(@WhatIsIt('Huhuhuhuhu 👨‍🏫') task: Task | undefined): void {
     if (task) {
       this.tasks = {
         ...this.tasks,
