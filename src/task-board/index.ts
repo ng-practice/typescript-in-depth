@@ -1,5 +1,5 @@
-import { TaskList, TaskPriority, Task } from './models';
 import { Mutator } from './lib/mutator';
+import { Task, TaskList, TaskPriority } from './models';
 
 const taskList = new TaskList();
 const id = '1234-234-23423-4324';
@@ -9,24 +9,24 @@ const isDone = true;
 
 taskList.addTaskToList({
   guid: '1',
-  title,
-  text,
+  isDone,
   priority: TaskPriority.Low,
-  isDone
+  text,
+  title,
 });
 taskList.addTaskToList({
   guid: '2',
-  title,
-  text,
+  isDone,
   priority: TaskPriority.High,
-  isDone
+  text,
+  title
 });
 taskList.addTaskToList({
   guid: '3',
-  title,
-  text,
+  isDone,
   priority: TaskPriority.Medium,
-  isDone
+  text,
+  title
 });
 
 taskList.addUrgentTask(

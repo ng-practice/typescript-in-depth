@@ -11,7 +11,6 @@ export interface ModelMutator<T> {
   addMany(model: T[], entities: Dictionary<T>): Dictionary<T>;
 }
 
-
 export interface ModelMutatorOptions<T> {
   getIdentifier: (entity: T) => string | number;
 }
@@ -19,14 +18,14 @@ export interface ModelMutatorOptions<T> {
 export class Mutator<T> implements ModelMutator<T> {
   constructor(private options: ModelMutatorOptions<T>) {}
 
-  addOne(model: T, entities: Dictionary<T>): Dictionary<T> {
+  public addOne(model: T, entities: Dictionary<T>): Dictionary<T> {
     return {
       ...entities,
       [this.options.getIdentifier(model)]: model
     };
   }
 
-  addMany(models: T[], entities: Dictionary<T>): Dictionary<T> {
+  public addMany(models: T[], entities: Dictionary<T>): Dictionary<T> {
     return models.reduce(
       (entityCollector, model) => this.addOne(model, entityCollector),
       entities

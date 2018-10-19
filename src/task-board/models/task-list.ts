@@ -4,14 +4,14 @@ import { TaskPriority } from './task-priority';
 
 export type ReadonlyTask = { readonly [prop in keyof Task]: Task[prop] };
 
-export type ReadonlyTasks = {
+export interface ReadonlyTasks {
   [key: string]: ReadonlyTask;
-};
+}
 
 export class TaskList {
-  tasks: ReadonlyTasks = {};
+  public tasks: ReadonlyTasks = {};
 
-  addTaskToList(task: Task | undefined): void {
+  public addTaskToList(task: Task | undefined): void {
     if (task) {
       this.tasks = {
         ...this.tasks,
@@ -20,12 +20,12 @@ export class TaskList {
     }
   }
 
-  addUrgentTask(task: Task, priority: UrgentTask) {
+  public addUrgentTask(task: Task, priority: UrgentTask) {
     const urgentTask = { ...task, priority };
     this.addTaskToList(urgentTask);
   }
 
-  getSortedDescByPriority(): Task[] {
+  public getSortedDescByPriority(): Task[] {
     return Object.values(this.tasks).sort((a, b) =>
       a.priority.localeCompare(b.priority)
     );
@@ -34,7 +34,7 @@ export class TaskList {
     // });
   }
 
-  dueDates(): string[] {
+  public dueDates(): string[] {
     return Object.values(this.tasks).map((task: { priority: TaskPriority }) => {
       switch (task.priority) {
         case TaskPriority.Low:
@@ -52,7 +52,7 @@ export class TaskList {
     });
   }
 
-  getUrgent(): Task[] {
+  public getUrgent(): Task[] {
     return Object.values(this.tasks).filter(task =>
       this._isUrgent(task.priority)
     );
