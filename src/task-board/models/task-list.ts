@@ -1,6 +1,7 @@
 import { MandatoryTask, UrgentTask } from '../types';
 import { Task } from './task';
 import { TaskPriority } from './task-priority';
+import { Log } from '../lib/log.decorator';
 
 export type ReadonlyTask = { readonly [prop in keyof Task]: Task[prop] };
 
@@ -8,6 +9,7 @@ export interface ReadonlyTasks {
   [key: string]: ReadonlyTask;
 }
 
+@Log('Managing Tasks is fun 🤷‍.')
 export class TaskList {
   public tasks: ReadonlyTasks = {};
 

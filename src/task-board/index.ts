@@ -12,7 +12,7 @@ taskList.addTaskToList({
   isDone,
   priority: TaskPriority.Low,
   text,
-  title,
+  title
 });
 taskList.addTaskToList({
   guid: '2',
@@ -39,11 +39,12 @@ taskList.addUrgentTask(
 
 const mutator = new Mutator<Task>({ getIdentifier: task => task.guid });
 
-const task1 = { guid: '4', title, text, isDone, priority: TaskPriority.Low };
-const task2 = { guid: '5', title, text, isDone, priority: TaskPriority.Low };
-const task3 = { guid: '6', title, text, isDone, priority: TaskPriority.Low };
+const task1 = { title, text, isDone, guid: '4', priority: TaskPriority.Low };
+const task2 = { title, text, isDone, guid: '5', priority: TaskPriority.Low };
+const task3 = { title, text, isDone, guid: '6', priority: TaskPriority.Low };
 
 taskList.tasks = mutator.addOne(task1, taskList.tasks);
 taskList.tasks = mutator.addMany([task2, task3], taskList.tasks);
 
-console.log(taskList.tasks);
+// tslint:disable-next-line:no-any
+console.log((taskList as any)['additionalData'], taskList.tasks);
