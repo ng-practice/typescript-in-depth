@@ -15,7 +15,7 @@ export class TaskList {
     if (task) {
       this.tasks = {
         ...this.tasks,
-        [task.id]: task
+        [task.guid]: task
       };
     }
   }

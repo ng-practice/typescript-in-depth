@@ -1,5 +1,5 @@
-import { TaskList, TaskPriority } from './models';
-import { create } from 'lib/create';
+import { TaskList, TaskPriority, Task } from './models';
+import { Mutator } from './lib/mutator';
 
 const taskList = new TaskList();
 const id = '1234-234-23423-4324';
@@ -8,21 +8,21 @@ const text = 'text';
 const isDone = true;
 
 taskList.addTaskToList({
-  id: '1',
+  guid: '1',
   title,
   text,
   priority: TaskPriority.Low,
   isDone
 });
 taskList.addTaskToList({
-  id: '2',
+  guid: '2',
   title,
   text,
   priority: TaskPriority.High,
   isDone
 });
 taskList.addTaskToList({
-  id: '3',
+  guid: '3',
   title,
   text,
   priority: TaskPriority.Medium,
@@ -30,28 +30,20 @@ taskList.addTaskToList({
 });
 
 taskList.addUrgentTask(
-  { id: '4', title, text, isDone, priority: TaskPriority.Low },
+  { guid: '4', title, text, isDone, priority: TaskPriority.Low },
   TaskPriority.VeryHigh
 );
 
-console.log('Sorted:', taskList.getSortedDescByPriority());
-console.log('Due Dates:', taskList.dueDates());
+// console.log('Sorted:', taskList.getSortedDescByPriority());
+// console.log('Due Dates:', taskList.dueDates());
 
-// type protocols = 'HTTP' | 'HTTPS' | 'FTP';
+const mutator = new Mutator<Task>({ getIdentifier: task => task.guid });
 
-// const protocol: protocols = 'WS'
+const task1 = { guid: '4', title, text, isDone, priority: TaskPriority.Low };
+const task2 = { guid: '5', title, text, isDone, priority: TaskPriority.Low };
+const task3 = { guid: '6', title, text, isDone, priority: TaskPriority.Low };
 
-interface GenericIdentityFn<T> {
-  (arg: T): T;
-  prop: string;
-}
+taskList.tasks = mutator.addOne(task1, taskList.tasks);
+taskList.tasks = mutator.addMany([task2, task3], taskList.tasks);
 
-// let iFullfilInterface: GenericIdentityFn<number>;
-// iFullfilInterface = function(arg: number) {
-//   return arg * 2;
-// } as any;
-
-// iFullfilInterface.prop = '213123';
-
-const list = create(TaskList);
-console.log(list instanceof TaskList);
+console.log(taskList.tasks);
